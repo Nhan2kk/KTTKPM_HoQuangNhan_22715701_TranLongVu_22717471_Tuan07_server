@@ -1,0 +1,23 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+        routes:
+          - id: booking_service
+            uri: http://localhost:8081
+            predicates:
+              - Path=/api/bookings/**
+          - id: movie_service
+            uri: http://localhost:8082
+            predicates:
+              - Path=/api/movies/**
+          - id: payment_notification_service
+            uri: http://localhost:8083
+            predicates:
+              - Path=/api/payments/**
+          - id: user_service
+            uri: http://localhost:8084
+            predicates:
+              - Path=/api/users/**
