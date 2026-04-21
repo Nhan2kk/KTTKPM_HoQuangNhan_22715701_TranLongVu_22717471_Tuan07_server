@@ -4,13 +4,15 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "bookings")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Booking {
+public class Booking implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

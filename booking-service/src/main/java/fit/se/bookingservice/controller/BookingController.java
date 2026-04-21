@@ -67,9 +67,9 @@ public class BookingController {
 
     /**
      * Get bookings by user ID
-     * GET /api/bookings/user/{userId}
+     * GET /api/bookings/by-user/{userId}
      */
-    @GetMapping("/user/{userId}")
+    @GetMapping("/by-user/{userId}")
     public ResponseEntity<List<BookingResponse>> getBookingsByUserId(@PathVariable int userId) {
         log.info("Fetching bookings for user ID: {}", userId);
         try {

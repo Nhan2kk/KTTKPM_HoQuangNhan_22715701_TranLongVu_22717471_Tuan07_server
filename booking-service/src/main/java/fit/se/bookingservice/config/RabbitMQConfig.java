@@ -1,6 +1,9 @@
 package fit.se.bookingservice.config;
 
 import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,13 +22,13 @@ public class RabbitMQConfig {
     public static final String PAYMENT_COMPLETED_ROUTING_KEY = "payment.completed";
     public static final String BOOKING_FAILED_ROUTING_KEY = "booking.failed";
 
-    // ==================== EXCHANGES ====================
+    // EXCHANGES
     @Bean
     public TopicExchange bookingExchange() {
         return new TopicExchange(BOOKING_EXCHANGE, true, false);
     }
 
-    // ==================== QUEUES ====================
+    // QUEUES
     @Bean
     public Queue bookingCreatedQueue() {
         return new Queue(BOOKING_CREATED_QUEUE, true);
@@ -41,7 +44,7 @@ public class RabbitMQConfig {
         return new Queue(NOTIFICATION_QUEUE, true);
     }
 
-    // ==================== BINDINGS ====================
+    // BINDINGS
     @Bean
     public Binding bookingCreatedBinding(Queue bookingCreatedQueue, TopicExchange bookingExchange) {
         return BindingBuilder
@@ -64,5 +67,18 @@ public class RabbitMQConfig {
                 .bind(notificationQueue)
                 .to(bookingExchange)
                 .with(PAYMENT_COMPLETED_ROUTING_KEY + ",booking.failed");
+    }
+
+    // ==================== MESSAGE CONVERTER ====================
+    @Bean
+    public Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
+        return new Jackson2JsonMessageConverter();
+    }
+
+    @Bean
+    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
+        RabbitTemplate template = new RabbitTemplate(connectionFactory);
+        template.setMessageConverter(jackson2JsonMessageConverter());
+        return template;
     }
 }
