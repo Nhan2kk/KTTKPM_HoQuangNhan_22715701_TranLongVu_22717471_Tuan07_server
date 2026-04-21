@@ -1,12 +1,12 @@
 server:
-  port: 8082
+  port: 8081
 
 spring:
   application:
-    name: movie-service
+    name: booking-service
 
   datasource:
-    url: jdbc:mariadb://localhost:3306/service_movie
+    url: jdbc:mariadb://localhost:3306/service_booking
     driver-class-name: org.mariadb.jdbc.Driver
     username: root
     password:
@@ -20,11 +20,6 @@ spring:
       hibernate:
         format_sql: true
 
-  jackson:
-    date-format: yyyy-MM-dd
-    serialization:
-      WRITE_DATES_AS_TIMESTAMPS: false
-
   # RabbitMQ Configuration
   rabbitmq:
     host: localhost
@@ -36,7 +31,8 @@ spring:
 logging:
   level:
     root: INFO
-    fit.se.movieservice: DEBUG
+    fit.se.bookingservice: DEBUG
     org.springframework.amqp: DEBUG
+    org.springframework.rabbit: DEBUG
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n"

@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  # 1. Message Broker (RabbitMQ)
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"   # Cổng cho các service kết nối
+      - "15672:15672" # Cổng cho Dashboard quản lý
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  # 2. Database (MariaDB) - Dùng chung cho các service hoặc tạo riêng
+  mariadb:
+    image: mariadb
+    container_name: mariadb
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: admin
+      MARIADB_DATABASE: movieticket_db
+
+  # (Tùy chọn) Nếu bạn muốn đóng gói luôn code Spring Boot vào Docker
+  # Nếu không, bạn chỉ cần chạy RabbitMQ và MariaDB bằng Docker là đủ.
