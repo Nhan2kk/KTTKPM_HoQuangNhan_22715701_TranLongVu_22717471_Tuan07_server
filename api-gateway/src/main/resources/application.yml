@@ -2,22 +2,50 @@ server:
   port: 8080
 
 spring:
+  application:
+    name: gateway-service
+
   cloud:
     gateway:
-        routes:
-          - id: booking_service
-            uri: http://localhost:8081
-            predicates:
-              - Path=/api/bookings/**
-          - id: movie_service
-            uri: http://localhost:8082
-            predicates:
-              - Path=/api/movies/**
-          - id: payment_notification_service
-            uri: http://localhost:8083
-            predicates:
-              - Path=/api/payments/**
-          - id: user_service
-            uri: http://localhost:8084
-            predicates:
-              - Path=/api/users/**
+      # Cấu hình CORS để Frontend kết nối được
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:5173"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+
+      # Định tuyến các yêu cầu đến Microservices
+      routes:
+        - id: booking_service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/bookings/**
+
+        - id: movie_service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/movies/**
+
+        - id: payment_notification_service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/payments/**
+
+        - id: user_service
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/users/**
+
+# Cấu hình log để bạn dễ theo dõi request đi đâu
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.http.server.reactive: DEBUG
+    org.springframework.web.reactive: DEBUG

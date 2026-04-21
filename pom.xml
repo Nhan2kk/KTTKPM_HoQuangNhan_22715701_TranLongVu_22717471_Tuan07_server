@@ -16,7 +16,6 @@
     <description>Hệ thống đặt vé xem phim - Kiến trúc Event-Driven</description>
 
     <modules>
-        <module>common-library</module>
         <module>api-gateway</module>
         <module>user-service</module>
         <module>movie-service</module>
