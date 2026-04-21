@@ -24,7 +24,7 @@ public class MovieController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Movie> getMovieById(@PathVariable String id) {
+    public ResponseEntity<Movie> getMovieById(@PathVariable int id) {
         return movieService.getMovieById(id)
                 .map(movie -> ResponseEntity.ok(movie))
                 .orElse(ResponseEntity.notFound().build());
@@ -49,7 +49,7 @@ public class MovieController {
 
     // ==================== UPDATE ====================
     @PutMapping("/{id}")
-    public ResponseEntity<Movie> updateMovie(@PathVariable String id,
+    public ResponseEntity<Movie> updateMovie(@PathVariable int id,
                                              @RequestBody MovieRequest request) {
         try {
             Movie updatedMovie = movieService.updateMovie(id, request);
@@ -61,7 +61,7 @@ public class MovieController {
 
     // ==================== DELETE ====================
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMovie(@PathVariable String id) {
+    public ResponseEntity<Void> deleteMovie(@PathVariable int id) {
         try {
             movieService.deleteMovie(id);
             return ResponseEntity.noContent().build();   // 204 No Content

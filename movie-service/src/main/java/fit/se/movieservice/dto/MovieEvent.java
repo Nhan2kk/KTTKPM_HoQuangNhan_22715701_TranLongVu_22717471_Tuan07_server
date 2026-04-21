@@ -7,7 +7,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MovieEvent implements Serializable {
-    private String movieId;
+    private int movieId;
     private String title;
     private Double price;
     private String eventType; // "CREATED", "UPDATED", "DELETED"

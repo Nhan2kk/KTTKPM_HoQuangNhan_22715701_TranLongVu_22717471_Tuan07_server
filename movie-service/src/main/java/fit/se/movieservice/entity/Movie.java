@@ -13,7 +13,7 @@ import java.util.UUID;
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private int id;
     private String title;
     private String description;
     private Integer duration;

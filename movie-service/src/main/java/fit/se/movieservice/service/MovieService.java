@@ -33,7 +33,7 @@ public class MovieService {
     }
 
     @Transactional
-    public Movie updateMovie(String id, MovieRequest request) {
+    public Movie updateMovie(int id, MovieRequest request) {
         Movie existingMovie = movieRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Movie not found with id: " + id));
 
@@ -56,7 +56,7 @@ public class MovieService {
     }
 
     @Transactional
-    public void deleteMovie(String id) {
+    public void deleteMovie(int id) {
         Movie movie = movieRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Movie not found with id: " + id));
 
@@ -73,7 +73,7 @@ public class MovieService {
         return movieRepository.findAll();
     }
 
-    public Optional<Movie> getMovieById(String id) {
+    public Optional<Movie> getMovieById(int id) {
         return movieRepository.findById(id);
     }
 
