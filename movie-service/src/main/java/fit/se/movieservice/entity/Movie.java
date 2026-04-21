@@ -3,7 +3,7 @@ package fit.se.movieservice.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
-import java.util.UUID;
+
 
 @Entity
 @Table(name = "movies")
@@ -13,7 +13,7 @@ import java.util.UUID;
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private int id;
     private String title;
     private String description;
     private Integer duration;
