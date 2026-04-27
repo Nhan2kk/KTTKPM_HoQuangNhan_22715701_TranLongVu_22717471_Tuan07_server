@@ -21,14 +21,15 @@ public class RabbitMQConfig {
     // Routing Keys
     public static final String BOOKING_CREATED_ROUTING_KEY = "booking.created";
     public static final String PAYMENT_COMPLETED_ROUTING_KEY = "payment.completed";
+    public static final String BOOKING_FAILED_ROUTING_KEY = "booking.failed";
 
-    // ==================== EXCHANGES ====================
+    //  EXCHANGES 
     @Bean
     public TopicExchange bookingExchange() {
         return new TopicExchange(BOOKING_EXCHANGE, true, false);
     }
 
-    // ==================== QUEUES ====================
+    //  QUEUES 
     @Bean
     public Queue bookingCreatedQueue() {
         return new Queue(BOOKING_CREATED_QUEUE, true);
@@ -39,7 +40,7 @@ public class RabbitMQConfig {
         return new Queue(PAYMENT_COMPLETED_QUEUE, true);
     }
 
-    // ==================== BINDINGS ====================
+    //  BINDINGS 
     @Bean
     public Binding bookingCreatedBinding(Queue bookingCreatedQueue, TopicExchange bookingExchange) {
         return BindingBuilder
@@ -48,7 +49,7 @@ public class RabbitMQConfig {
                 .with(BOOKING_CREATED_ROUTING_KEY);
     }
 
-    // ==================== MESSAGE CONVERTER ====================
+    //  MESSAGE CONVERTER 
     @Bean
     public Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
         return new Jackson2JsonMessageConverter();

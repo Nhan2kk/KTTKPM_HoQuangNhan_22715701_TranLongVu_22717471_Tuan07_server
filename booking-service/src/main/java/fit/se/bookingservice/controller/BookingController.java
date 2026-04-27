@@ -119,4 +119,20 @@ public class BookingController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    /**
+     * Retry payment by re-publishing BOOKING_CREATED event
+     * POST /api/bookings/{id}/retry-payment
+     */
+    @PostMapping("/{id}/retry-payment")
+    public ResponseEntity<BookingResponse> retryPayment(@PathVariable int id) {
+        log.info("Retrying payment for booking ID: {}", id);
+        try {
+            BookingResponse response = bookingService.retryPayment(id);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            log.error("Error retrying payment for booking ID {}: {}", id, e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }

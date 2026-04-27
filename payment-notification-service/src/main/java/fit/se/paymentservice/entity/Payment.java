@@ -32,7 +32,9 @@ public class Payment implements Serializable {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
-        status = PaymentStatus.PENDING;
+        if (status == null) {
+            status = PaymentStatus.PENDING;
+        }
     }
 
     @PreUpdate

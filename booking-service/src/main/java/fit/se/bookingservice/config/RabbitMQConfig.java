@@ -16,6 +16,7 @@ public class RabbitMQConfig {
     public static final String BOOKING_CREATED_QUEUE = "booking.created.queue";
     public static final String PAYMENT_QUEUE = "payment.queue";
     public static final String PAYMENT_COMPLETED_QUEUE = "booking.payment.completed.queue";
+    public static final String BOOKING_FAILED_QUEUE = "booking.failed.queue";
     public static final String NOTIFICATION_QUEUE = "notification.queue";
 
     // Routing Keys
@@ -43,6 +44,11 @@ public class RabbitMQConfig {
     @Bean
     public Queue paymentCompletedQueue() {
         return new Queue(PAYMENT_COMPLETED_QUEUE, true);
+    }
+
+    @Bean
+    public Queue bookingFailedQueue() {
+        return new Queue(BOOKING_FAILED_QUEUE, true);
     }
 
     @Bean
@@ -76,11 +82,27 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public Binding bookingFailedBinding(Queue bookingFailedQueue, TopicExchange bookingExchange) {
+        return BindingBuilder
+                .bind(bookingFailedQueue)
+                .to(bookingExchange)
+                .with(BOOKING_FAILED_ROUTING_KEY);
+    }
+
+    @Bean
     public Binding notificationBinding(Queue notificationQueue, TopicExchange bookingExchange) {
         return BindingBuilder
                 .bind(notificationQueue)
                 .to(bookingExchange)
-                .with(PAYMENT_COMPLETED_ROUTING_KEY + ",booking.failed");
+                .with(PAYMENT_COMPLETED_ROUTING_KEY);
+    }
+
+    @Bean
+    public Binding notificationFailedBinding(Queue notificationQueue, TopicExchange bookingExchange) {
+        return BindingBuilder
+                .bind(notificationQueue)
+                .to(bookingExchange)
+                .with(BOOKING_FAILED_ROUTING_KEY);
     }
 
     // ==================== MESSAGE CONVERTER ====================

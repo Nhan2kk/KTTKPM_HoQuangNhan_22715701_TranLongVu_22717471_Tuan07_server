@@ -62,7 +62,7 @@ public class PaymentService {
     }
 
     /**
-     * Publish PAYMENT_COMPLETED event to Notification Service
+     * Publish PAYMENT_COMPLETED or BOOKING_FAILED event
      */
     private void publishPaymentCompletedEvent(Payment payment, int userId) {
         try {
@@ -75,12 +75,16 @@ public class PaymentService {
             event.setPaidAt(payment.getPaidAt());
             event.setEventTimestamp(LocalDateTime.now().toString());
 
-            log.info("Publishing PAYMENT_COMPLETED event - Booking ID: {}, Status: {}", 
-                    payment.getBookingId(), payment.getStatus());
+                String routingKey = Payment.PaymentStatus.SUCCESS.equals(payment.getStatus())
+                    ? RabbitMQConfig.PAYMENT_COMPLETED_ROUTING_KEY
+                    : RabbitMQConfig.BOOKING_FAILED_ROUTING_KEY;
+
+                log.info("Publishing payment event - Booking ID: {}, Status: {}, RoutingKey: {}",
+                    payment.getBookingId(), payment.getStatus(), routingKey);
             
             rabbitTemplate.convertAndSend(
                     RabbitMQConfig.BOOKING_EXCHANGE,
-                    RabbitMQConfig.PAYMENT_COMPLETED_ROUTING_KEY,
+                    routingKey,
                     event
             );
 

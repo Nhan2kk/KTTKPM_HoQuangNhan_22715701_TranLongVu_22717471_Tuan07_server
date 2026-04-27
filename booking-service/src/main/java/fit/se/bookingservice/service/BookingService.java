@@ -112,6 +112,22 @@ public class BookingService {
     }
 
     /**
+     * Retry payment by setting status to PENDING and re-publishing BOOKING_CREATED
+     */
+    public BookingResponse retryPayment(int bookingId) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new RuntimeException("Booking not found with ID: " + bookingId));
+
+        booking.setStatus(Booking.BookingStatus.PENDING);
+        Booking updatedBooking = bookingRepository.save(booking);
+
+        publishBookingEvent(updatedBooking);
+        log.info("Re-published BOOKING_CREATED for booking ID: {}", bookingId);
+
+        return BookingResponse.fromEntity(updatedBooking);
+    }
+
+    /**
      * Publish BOOKING_CREATED event to message broker
      */
     private void publishBookingEvent(Booking booking) {

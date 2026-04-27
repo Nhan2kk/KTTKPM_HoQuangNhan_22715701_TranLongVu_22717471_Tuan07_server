@@ -56,7 +56,7 @@ public class NotificationService {
             : LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
 
         String message = String.format(
-            "✅ ĐẶTLỖI THÀNH CÔNG\n\n" +
+            "ĐẶT THÀNH CÔNG\n\n" +
             "Mã đặt vé: #%d\n" +
             "Người dùng ID: %d\n" +
             "Số tiền: %,.0f VND\n" +
@@ -65,7 +65,7 @@ public class NotificationService {
             event.getBookingId(), event.getUserId(), event.getAmount(), formattedDate
         );
 
-        log.info("📧 Sending SUCCESS notification to User {}\n{}", event.getUserId(), message);
+        log.info("Sending SUCCESS notification to User {}\n{}", event.getUserId(), message);
         // Simulate email sending
         sendEmailNotification(event.getUserId(), "Đặt vé thành công", message);
         // Simulate SMS sending
@@ -77,7 +77,7 @@ public class NotificationService {
      */
     private void sendFailureNotification(PaymentCompletedEvent event) {
         String message = String.format(
-            "❌ ĐẶT VÉ THẤT BẠI\n\n" +
+            "ĐẶT VÉ THẤT BẠI\n\n" +
             "Mã đặt vé: #%d\n" +
             "Người dùng ID: %d\n" +
             "Số tiền: %,.0f VND\n\n" +
@@ -85,7 +85,7 @@ public class NotificationService {
             event.getBookingId(), event.getUserId(), event.getAmount()
         );
 
-        log.warn("📧 Sending FAILURE notification to User {}\n{}", event.getUserId(), message);
+        log.warn("Sending FAILURE notification to User {}\n{}", event.getUserId(), message);
         // Simulate email sending
         sendEmailNotification(event.getUserId(), "Đặt vé thất bại", message);
         // Simulate SMS sending
@@ -97,7 +97,7 @@ public class NotificationService {
      */
     private void sendEmailNotification(int userId, String subject, String message) {
         // In real application, use JavaMailSender
-        log.info("📧 EMAIL SENT");
+        log.info("EMAIL SENT");
         log.info("To: user{}@example.com", userId);
         log.info("Subject: {}", subject);
         log.info("Message: {}", message);
@@ -108,7 +108,7 @@ public class NotificationService {
      */
     private void sendSMSNotification(int userId, String message) {
         // In real application, use SMS gateway (Twilio, etc.)
-        log.info("📱 SMS SENT");
+        log.info("SMS SENT");
         log.info("To: User {} (Phone)", userId);
         log.info("Message: {}", message);
     }

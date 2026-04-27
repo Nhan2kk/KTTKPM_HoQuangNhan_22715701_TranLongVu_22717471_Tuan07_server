@@ -23,6 +23,15 @@ public class PaymentEventListener {
      */
     @RabbitListener(queues = RabbitMQConfig.PAYMENT_COMPLETED_QUEUE)
     public void handlePaymentCompleted(PaymentCompletedEvent event) {
+        updateBookingStatusFromPaymentEvent(event);
+    }
+
+    @RabbitListener(queues = RabbitMQConfig.BOOKING_FAILED_QUEUE)
+    public void handleBookingFailed(PaymentCompletedEvent event) {
+        updateBookingStatusFromPaymentEvent(event);
+    }
+
+    private void updateBookingStatusFromPaymentEvent(PaymentCompletedEvent event) {
         try {
             log.info("Received PAYMENT_COMPLETED event - Booking ID: {}, Status: {}", 
                     event.getBookingId(), event.getStatus());

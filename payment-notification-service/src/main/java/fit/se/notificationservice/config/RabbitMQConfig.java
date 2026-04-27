@@ -17,13 +17,13 @@ public class RabbitMQConfig {
     public static final String PAYMENT_COMPLETED_ROUTING_KEY = "payment.completed";
     public static final String BOOKING_FAILED_ROUTING_KEY = "booking.failed";
 
-    // ==================== EXCHANGES ====================
+    // EXCHANGES
     @Bean
     public TopicExchange bookingExchange() {
         return new TopicExchange(BOOKING_EXCHANGE, true, false);
     }
 
-    // ==================== QUEUES ====================
+    // QUEUES
     @Bean
     public Queue paymentCompletedQueue() {
         return new Queue(PAYMENT_COMPLETED_QUEUE, true);
@@ -34,7 +34,7 @@ public class RabbitMQConfig {
         return new Queue(BOOKING_FAILED_QUEUE, true);
     }
 
-    // ==================== BINDINGS ====================
+    // BINDINGS
     @Bean
     public Binding paymentCompletedBinding(Queue paymentCompletedQueue, TopicExchange bookingExchange) {
         return BindingBuilder
